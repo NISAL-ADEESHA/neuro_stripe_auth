@@ -1,5 +1,3 @@
-# @littleexploiter
-
 from flask import Flask, request, jsonify
 import requests
 import re
@@ -40,7 +38,7 @@ def braintree_check(cc, mm, yy, cvv):
     session.headers.update({'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36'})
     if len(yy) == 4: yy = yy[-2:]
     try:
-        graphql_headers = {'accept': '*/*','authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IjIwMTgwNDI2MTYtcHJvZHVjdGlvbiIsImlzcyI6Imh0dHBzOi8vYXBpLmJyYWludHJlZWdhdGV3YXkuY29tIn0.eyJleHAiOjE3NTk1NTAxNzUsImp0aSI6IjM3M2VjOGQ1LTMxMzEtNDBhYS05NzFlLTQxNTM5MmNkN2FiZiIsInN1YiI6Ijg1Zmh2amhocTZqMnhoazgiLCJpc3MiOiJodHRwczovL2FwaS5icmFpbnRyZWVnYXRld2F5LmNvbSIsIm1lcmNoYW50Ijp7InB1YmxpY19pZCI6Ijg1Zmh2amhocTZqMnhoazgiLCJ2ZXJpZnlfY2FyZF9ieV9kZWZhdWx0Ijp0cnVlLCJ2ZXJpZnlfd2FsbGV0X2J5X2RlZmF1bHQiOmZhbHNlfSwicmlnaHRzIjpbIm1hbmFnZV92YXVsdCJdLCJzY29wZSI6WyJCcmFpbnRyZWU6VmF1bHQiLCJCcmFpbnRyZWU6Q2xpZW50U0RLIl0sIm9wdGlvbnMiOnt9fQ.qkEHNipXBchl8xjidyqyGihNP0rnwVWr-7yYM_CEDphT1ewsLC1pi2b6G_9kUgOshdP1HzTdBt7ijMEixhibqA','braintree-version': '2018-05-10', 'content-type': 'application/json', 'origin': 'https://assets.braintreegateway.com',}
+        graphql_headers = {'accept': '*/*','authorization': 'Bearer YOUR_AUTH_KEY', 'braintree-version': '2018-05-10', 'content-type': 'application/json', 'origin': 'https://assets.braintreegateway.com',}
         graphql_json_data = {'clientSdkMetadata': {'sessionId': '234e1f44-db37-4aa5-998c-0a563f9e2424'},'query': 'mutation TokenizeCreditCard($input: TokenizeCreditCardInput!) { tokenizeCreditCard(input: $input) { token } }','variables': {'input': {'creditCard': {'number': cc, 'expirationMonth': mm, 'expirationYear': yy, 'cvv': cvv}}},'operationName': 'TokenizeCreditCard',}
         graphql_response = session.post('https://payments.braintree-api.com/graphql', headers=graphql_headers, json=graphql_json_data)
         response_data = graphql_response.json()
